@@ -5,24 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5 Card Game Scoreboard</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&family=Sora:wght@400;600;700&display=swap');
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --bg-dark: #0f172a;
-            --bg-light: #1a2847;
-            --card-bg: #1e3a5f;
-            --text-light: #f1f5f9;
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-gradient: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            --accent-gradient: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+            --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --bg-light: #f8fafb;
+            --bg-white: #ffffff;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-main: #1e293b;
+            --text-secondary: #475569;
             --text-muted: #94a3b8;
-            --text-accent: #60a5fa;
+            --text-accent: #2563eb;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
             --border-radius: 16px;
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
-            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.25);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 12px 32px rgba(37, 99, 235, 0.15);
+            --glow-sm: 0 0 15px rgba(37, 99, 235, 0.2);
+            --glow-lg: 0 0 30px rgba(37, 99, 235, 0.3);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         * {
@@ -36,14 +46,15 @@
         }
 
         body {
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-light);
+            font-family: 'Sora', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #f0f4f8 50%, var(--bg-light) 100%);
+            color: var(--text-main);
             padding: 16px;
             display: flex;
             justify-content: center;
             min-height: 100vh;
             position: relative;
+            letter-spacing: 0.3px;
         }
 
         body::before {
@@ -53,8 +64,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(245, 87, 108, 0.1) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
             pointer-events: none;
             z-index: -1;
         }
@@ -73,37 +84,68 @@
         }
 
         .header-icon {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             filter: drop-shadow(0 8px 16px rgba(102, 126, 234, 0.3));
-            animation: float 3s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite, glow-pulse 3s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% {
-                transform: translateY(0px);
+                transform: translateY(0px) rotateZ(0deg);
+            }
+            25% {
+                transform: translateY(-12px) rotateZ(1deg);
+            }
+            75% {
+                transform: translateY(-8px) rotateZ(-1deg);
             }
             50% {
-                transform: translateY(-10px);
+                transform: translateY(-15px) rotateZ(0deg);
+            }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.4));
+            }
+            50% {
+                filter: drop-shadow(0 0 40px rgba(102, 126, 234, 0.8));
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
             }
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: fadeInDown 0.6s ease;
+            animation: fadeInDown 0.8s ease;
+            line-height: 1.2;
         }
 
         .header p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 300;
-            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            animation: fadeInUp 0.8s ease 0.1s both;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         @keyframes fadeInDown {
@@ -122,13 +164,13 @@
             display: flex;
             gap: 12px;
             margin-bottom: 32px;
-            background: var(--card-bg);
-            padding: 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+            padding: 18px;
             border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            backdrop-filter: blur(10px);
-            animation: slideUp 0.6s ease 0.1s both;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid rgba(37, 99, 235, 0.15);
+            backdrop-filter: blur(20px);
+            animation: slideUp 0.8s ease 0.1s both;
         }
 
         @keyframes slideUp {
@@ -145,24 +187,26 @@
         input[type="text"], input[type="number"] {
             flex: 1;
             padding: 14px 16px;
-            background: rgba(30, 58, 95, 0.6);
-            border: 2px solid rgba(96, 165, 250, 0.3);
+            background: rgba(248, 250, 252, 0.8);
+            border: 2px solid rgba(37, 99, 235, 0.2);
             border-radius: 12px;
             font-size: 1rem;
-            color: var(--text-light);
+            color: var(--text-main);
             font-family: inherit;
+            font-weight: 500;
             outline: none;
-            transition: var(--transition);
+            transition: var(--transition-smooth);
         }
 
         input[type="text"]::placeholder, input[type="number"]::placeholder {
             color: var(--text-muted);
+            font-weight: 400;
         }
 
         input[type="text"]:focus, input[type="number"]:focus {
             border-color: var(--text-accent);
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
-            background: rgba(30, 58, 95, 0.8);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1), var(--glow-sm);
+            background: rgba(248, 250, 252, 1);
         }
 
         button {
@@ -181,10 +225,12 @@
         .btn-primary {
             background: var(--primary-gradient);
             color: white;
-            padding: 14px 20px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            padding: 14px 24px;
+            box-shadow: var(--shadow-lg);
             position: relative;
             overflow: hidden;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary::before {
@@ -195,49 +241,66 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.4);
             transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+            transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1), height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--primary-gradient);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .btn-primary:hover::before {
-            width: 300px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
         }
 
         .btn-primary:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background: rgba(96, 165, 250, 0.2);
+            background: rgba(37, 99, 235, 0.1);
             color: var(--text-accent);
             padding: 12px 16px;
-            border: 1px solid rgba(96, 165, 250, 0.4);
+            border: 1.5px solid rgba(37, 99, 235, 0.3);
+            font-weight: 500;
+            transition: var(--transition-smooth);
         }
 
         .btn-secondary:hover {
-            background: rgba(96, 165, 250, 0.3);
-            border-color: var(--text-accent);
+            background: rgba(37, 99, 235, 0.15);
+            border-color: rgba(37, 99, 235, 0.6);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
+            transform: translateY(-1px);
         }
 
         .btn-danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
             padding: 10px 14px;
-            border: 1px solid rgba(239, 68, 68, 0.4);
+            border: 1.5px solid rgba(239, 68, 68, 0.3);
             font-size: 1.1rem;
+            transition: var(--transition-smooth);
         }
 
         .btn-danger:hover {
             background: var(--danger);
             color: white;
             border-color: var(--danger);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+            transform: translateY(-1px);
         }
 
         /* Player List */
@@ -245,16 +308,38 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
-            animation: slideUp 0.6s ease 0.2s both;
+            animation: slideUp 0.8s ease 0.2s both;
+        }
+
+        .player-list .player-card {
+            animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        .player-list .player-card:nth-child(1) { animation-delay: 0.2s; }
+        .player-list .player-card:nth-child(2) { animation-delay: 0.3s; }
+        .player-list .player-card:nth-child(3) { animation-delay: 0.4s; }
+        .player-list .player-card:nth-child(4) { animation-delay: 0.5s; }
+        .player-list .player-card:nth-child(5) { animation-delay: 0.6s; }
+        .player-list .player-card:nth-child(n+6) { animation-delay: 0.7s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .player-card {
-            background: var(--card-bg);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.8) 100%);
             border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: var(--shadow-sm);
-            border: 2px solid rgba(96, 165, 250, 0.2);
-            transition: var(--transition);
+            padding: 22px;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid rgba(37, 99, 235, 0.15);
+            transition: var(--transition-smooth);
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -268,15 +353,25 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 5px;
             background: var(--primary-gradient);
-            opacity: 0.6;
+            opacity: 0.8;
+            animation: slideRight 0.8s ease-out;
+        }
+
+        @keyframes slideRight {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
         }
 
         .player-card:hover {
-            border-color: rgba(96, 165, 250, 0.5);
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
+            border-color: rgba(37, 99, 235, 0.4);
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-6px);
         }
 
         @media (min-width: 520px) {
@@ -300,23 +395,44 @@
         .player-info {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             flex: 1;
             min-width: 0;
+            animation: fadeInLeft 0.6s ease;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .player-avatar {
-            width: 50px;
-            height: 50px;
+            width: 56px;
+            height: 56px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
+            font-weight: 800;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            transition: var(--transition-smooth);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .player-card:hover .player-avatar {
+            transform: scale(1.08) rotateZ(-5deg);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
         .player-rank {
@@ -325,49 +441,65 @@
             gap: 6px;
             font-size: 0.8rem;
             color: var(--text-accent);
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(37, 99, 235, 0.2);
         }
 
         .player-name {
             font-size: 1.4rem;
             font-weight: 700;
-            color: var(--text-light);
+            color: var(--text-dark);
             word-break: break-word;
+            letter-spacing: 0.3px;
+            transition: var(--transition-smooth);
+        }
+
+        .player-card:hover .player-name {
+            color: var(--text-accent);
         }
 
         .player-score {
             font-size: 0.95rem;
-            color: var(--text-muted);
+            color: var(--text-main);
             display: flex;
             align-items: baseline;
-            gap: 4px;
+            gap: 6px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
         }
 
         .score-number {
-            font-size: 1.8rem;
-            font-weight: 800;
+            font-size: 2rem;
+            font-weight: 900;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 2px 20px rgba(102, 126, 234, 0.3);
+            letter-spacing: -0.5px;
         }
 
         .score-bar {
             width: 100%;
-            height: 6px;
-            background: rgba(96, 165, 250, 0.1);
-            border-radius: 3px;
+            height: 8px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 4px;
             overflow: hidden;
-            margin-top: 8px;
+            margin-top: 10px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .score-bar-fill {
             height: 100%;
             background: var(--primary-gradient);
-            border-radius: 3px;
-            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 4px;
+            transition: width 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
         }
 
         .player-actions {
@@ -375,6 +507,18 @@
             gap: 8px;
             align-items: center;
             flex-wrap: wrap;
+            animation: fadeInRight 0.6s ease;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .player-actions input {
@@ -383,14 +527,67 @@
             font-size: 0.95rem;
         }
 
+        /* Quick add buttons */
+        .quick-add-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .quick-add-btn {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            background: rgba(37, 99, 235, 0.08);
+            border: 1.5px solid rgba(37, 99, 235, 0.3);
+            color: var(--text-accent);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+        }
+
+        .quick-add-btn:hover {
+            background: rgba(37, 99, 235, 0.2);
+            border-color: rgba(37, 99, 235, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 0 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .quick-add-btn:active {
+            transform: translateY(0);
+        }
+
+        .out .quick-add-btn {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .out .quick-add-btn:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
         /* Out / Eliminated State */
         .player-card.out {
             opacity: 0.7;
-            background: rgba(30, 58, 95, 0.5);
+            background: linear-gradient(135deg, rgba(254, 242, 242, 0.9) 0%, rgba(254, 242, 242, 0.8) 100%);
+            border-color: rgba(239, 68, 68, 0.2);
         }
 
         .player-card.out::before {
             background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
         }
 
         .out .score-number {
@@ -427,27 +624,29 @@
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: var(--card-bg);
-            color: var(--text-light);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+            color: var(--text-main);
             padding: 16px 20px;
             border-radius: 12px;
             border-left: 4px solid var(--danger);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-xl);
             z-index: 1000;
-            animation: slideInRight 0.4s ease;
-            backdrop-filter: blur(10px);
+            animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(20px);
             max-width: 90vw;
             word-wrap: break-word;
+            font-weight: 500;
+            letter-spacing: 0.3px;
         }
 
         @keyframes slideInRight {
             from {
                 opacity: 0;
-                transform: translateX(100px);
+                transform: translateX(120px) rotateZ(5deg);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateX(0) rotateZ(0deg);
             }
         }
 
@@ -466,15 +665,26 @@
             animation: slideOutRight 0.4s ease forwards;
         }
 
-        /* Responsive Design */
         @media (max-width: 520px) {
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
             }
 
             .add-player-section {
                 flex-direction: column;
                 gap: 10px;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                padding: 14px;
+            }
+
+            .add-player-section input {
+                font-size: 16px;
             }
 
             .add-player-section button {
@@ -493,44 +703,71 @@
                 font-size: 1.6rem;
             }
 
+            .player-card {
+                padding: 16px;
+                gap: 12px;
+            }
+
             .player-actions {
                 width: 100%;
                 justify-content: flex-start;
             }
 
             .player-actions input {
-                max-width: 80px;
+                max-width: 70px;
                 flex: 1;
-                min-width: 60px;
+                min-width: 50px;
+                font-size: 16px;
+                padding: 10px 8px;
+            }
+
+            .quick-add-buttons {
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .quick-add-btn {
+                flex: 1;
+                min-width: 45px;
+                padding: 10px 6px;
+                font-size: 0.75rem;
             }
 
             .toast {
-                bottom: 16px;
-                right: 16px;
-                left: 16px;
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                font-size: 0.9rem;
+            }
+
+            .card-footer {
+                margin-top: 30px;
             }
         }
 
         /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
             color: var(--text-muted);
         }
 
         .empty-state p {
-            font-size: 1.1rem;
-            margin: 16px 0;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            animation: fade In 0.8s ease;
         }
 
         /* Card Footer Decoration */
         .card-footer {
-            margin-top: 40px;
-            opacity: 0.7;
-            animation: fadeInUp 0.8s ease 0.5s both;
+            margin-top: 50px;
+            opacity: 0.6;
+            animation: fadeUp 1s ease 0.5s both;
         }
 
-        @keyframes fadeInUp {
+        @keyframes fadeUp {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -550,29 +787,29 @@
         <div class="header-icon">
             <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Card 1 -->
-                <rect x="10" y="15" width="35" height="50" rx="3" fill="url(#gradient1)" stroke="rgba(96, 165, 250, 0.5)" stroke-width="2"/>
+                <rect x="10" y="15" width="35" height="50" rx="3" fill="url(#gradient1)" stroke="rgba(37, 99, 235, 0.6)" stroke-width="2"/>
                 <text x="27" y="45" font-size="24" font-weight="bold" fill="white" text-anchor="middle">♠</text>
                 
                 <!-- Card 2 -->
-                <rect x="45" y="10" width="35" height="50" rx="3" fill="url(#gradient2)" stroke="rgba(245, 87, 108, 0.5)" stroke-width="2"/>
+                <rect x="45" y="10" width="35" height="50" rx="3" fill="url(#gradient2)" stroke="rgba(236, 72, 153, 0.6)" stroke-width="2"/>
                 <text x="62" y="40" font-size="24" font-weight="bold" fill="white" text-anchor="middle">♥</text>
                 
                 <!-- Card 3 -->
-                <rect x="27" y="50" width="35" height="50" rx="3" fill="url(#gradient3)" stroke="rgba(16, 185, 129, 0.5)" stroke-width="2"/>
+                <rect x="27" y="50" width="35" height="50" rx="3" fill="url(#gradient3)" stroke="rgba(16, 185, 129, 0.6)" stroke-width="2"/>
                 <text x="44" y="80" font-size="24" font-weight="bold" fill="white" text-anchor="middle">♦</text>
                 
                 <defs>
                     <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
                     </linearGradient>
                     <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+                        <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#f43f5e;stop-opacity:1" />
                     </linearGradient>
                     <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+                        <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
                     </linearGradient>
                 </defs>
             </svg>
@@ -596,33 +833,34 @@
         <svg width="100%" height="80" viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.5" />
-                    <stop offset="100%" style="stop-color:#764ba2;stop-opacity:0.3" />
+                    <stop offset="0%" style="stop-color:#2563eb;stop-opacity:0.5" />
+                    <stop offset="100%" style="stop-color:#1e40af;stop-opacity:0.3" />
                 </linearGradient>
                 <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#f093fb;stop-opacity:0.5" />
-                    <stop offset="100%" style="stop-color:#f5576c;stop-opacity:0.3" />
+                    <stop offset="0%" style="stop-color:#ec4899;stop-opacity:0.5" />
+                    <stop offset="100%" style="stop-color:#f43f5e;stop-opacity:0.3" />
                 </linearGradient>
                 <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#4facfe;stop-opacity:0.5" />
-                    <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:0.3" />
+                    <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.5" />
+                    <stop offset="100%" style="stop-color:#059669;stop-opacity:0.3" />
                 </linearGradient>
             </defs>
             <!-- Decorative cards -->
-            <rect x="20" y="10" width="50" height="60" rx="4" fill="url(#grad1)" stroke="rgba(102, 126, 234, 0.4)" stroke-width="1.5"/>
-            <text x="45" y="50" font-size="32" font-weight="bold" fill="#667eea" text-anchor="middle">♠</text>
+            <rect x="20" y="10" width="50" height="60" rx="4" fill="url(#grad1)" stroke="rgba(37, 99, 235, 0.4)" stroke-width="1.5"/>
+            <text x="45" y="50" font-size="32" font-weight="bold" fill="#2563eb" text-anchor="middle">♠</text>
             
-            <rect x="90" y="20" width="50" height="60" rx="4" fill="url(#grad2)" stroke="rgba(245, 87, 108, 0.4)" stroke-width="1.5"/>
-            <text x="115" y="60" font-size="32" font-weight="bold" fill="#f5576c" text-anchor="middle">♥</text>
+            <rect x="90" y="20" width="50" height="60" rx="4" fill="url(#grad2)" stroke="rgba(236, 72, 153, 0.4)" stroke-width="1.5"/>
+            <text x="115" y="60" font-size="32" font-weight="bold" fill="#ec4899" text-anchor="middle">♥</text>
             
-            <rect x="160" y="10" width="50" height="60" rx="4" fill="url(#grad3)" stroke="rgba(79, 172, 254, 0.4)" stroke-width="1.5"/>
-            <text x="185" y="50" font-size="32" font-weight="bold" fill="#4facfe" text-anchor="middle">♦</text>
+            <rect x="160" y="10" width="50" height="60" rx="4" fill="url(#grad3)" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1.5"/>
+            <text x="185" y="50" font-size="32" font-weight="bold" fill="#10b981" text-anchor="middle">♦</text>
             
-            <rect x="230" y="20" width="50" height="60" rx="4" fill="url(#grad1)" stroke="rgba(102, 126, 234, 0.4)" stroke-width="1.5"/>
-            <text x="255" y="60" font-size="32" font-weight="bold" fill="#667eea" text-anchor="middle">♣</text>
+            <rect x="230" y="20" width="50" height="60" rx="4" fill="url(#grad1)" stroke="rgba(37, 99, 235, 0.4)" stroke-width="1.5"/>
+            <text x="255" y="60" font-size="32" font-weight="bold" fill="#2563eb" text-anchor="middle">♣</text>
             
-            <rect x="300" y="10" width="50" height="60" rx="4" fill="url(#grad2)" stroke="rgba(245, 87, 108, 0.4)" stroke-width="1.5"/>
-            <text x="325" y="50" font-size="32" font-weight="bold" fill="#f5576c" text-anchor="middle">♠</text>
+            <rect x="300" y="10" width="50" height="60" rx="4" fill="url(#grad2)" stroke="rgba(236, 72, 153, 0.4)" stroke-width="1.5"/>
+            <text x="325" y="50" font-size="32" font-weight="bold" fill="#ec4899" text-anchor="middle">♠</text>
+            
         </svg>
     </div>
 </div>
@@ -633,14 +871,14 @@ let players = [];
 // Generate a color based on player name
 function getAvatarColor(name) {
     const colors = [
-        'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-        'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-        'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-        'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-        'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
-        'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-        'linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%)',
+        'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)',
+        'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
+        'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+        'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+        'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
+        'linear-gradient(135deg, #0891b2 0%, #0e7490 100%)',
+        'linear-gradient(135deg, #db2777 0%, #be185d 100%)',
+        'linear-gradient(135deg, #ea580c 0%, #c2410c 100%)',
     ];
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
@@ -752,6 +990,23 @@ function addPoints(index, inputId) {
     updateTable();
 }
 
+function quickAddPoints(index, points) {
+    if (players[index].score >= 100) return;
+    
+    players[index].score += points;
+
+    // Check for elimination
+    if (players[index].score >= 100 && !players[index].notified) {
+        players[index].notified = true;
+        const eliminatedName = players[index].name;
+        showToast(`🚨 ${eliminatedName} has been eliminated! (100+ pts)`);
+    } else {
+        showToast(`✅ +${points} points added to ${players[index].name}`);
+    }
+
+    updateTable();
+}
+
 function resetPlayer(index) {
     players[index].score = 0;
     players[index].notified = false;
@@ -805,6 +1060,13 @@ function updateTable() {
                 ${isOut ? `<button class="btn-secondary" onclick="resetPlayer(${index})">Reset</button>` : ''}
                 <button class="btn-danger" onclick="deletePlayer(${index})">✕</button>
             </div>
+            
+            ${!isOut ? `<div class="quick-add-buttons">
+                <button class="quick-add-btn" onclick="quickAddPoints(${index}, 5)">+5</button>
+                <button class="quick-add-btn" onclick="quickAddPoints(${index}, 10)">+10</button>
+                <button class="quick-add-btn" onclick="quickAddPoints(${index}, 20)">+20</button>
+                <button class="quick-add-btn" onclick="quickAddPoints(${index}, 50)">+50</button>
+            </div>` : ''}
         `;
 
         container.appendChild(card);
