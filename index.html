@@ -667,69 +667,107 @@
 
         @media (max-width: 520px) {
             .header h1 {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
+                margin-bottom: 8px;
             }
 
             .header p {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
 
             .add-player-section {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
                 position: sticky;
                 top: 0;
                 z-index: 100;
-                padding: 14px;
+                padding: 12px;
+                margin-bottom: 20px;
             }
 
             .add-player-section input {
-                font-size: 16px;
+                font-size: 15px;
+                padding: 10px 12px;
             }
 
             .add-player-section button {
                 width: 100%;
+                padding: 10px;
             }
 
-            button {
-                font-size: 0.85rem;
-            }
-
-            .player-name {
-                font-size: 1.2rem;
-            }
-
-            .score-number {
-                font-size: 1.6rem;
+            .player-list {
+                gap: 10px; /* Tighter spacing between cards */
             }
 
             .player-card {
-                padding: 16px;
-                gap: 12px;
+                padding: 12px; /* Reduced from 16px */
+                gap: 8px;
+                position: relative; /* Allows absolute positioning for the avatar */
+            }
+
+            .player-info {
+                gap: 4px; /* Tighter vertical spacing */
+                padding-right: 45px; /* Prevent text from overlapping the avatar */
+            }
+
+            /* Move avatar to the top right to save vertical space */
+            .player-avatar {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+                margin-bottom: 0;
+            }
+
+            .player-rank {
+                font-size: 0.7rem;
+                padding: 2px 6px;
+            }
+
+            .player-name {
+                font-size: 1.1rem;
+            }
+
+            .score-number {
+                font-size: 1.4rem;
+            }
+
+            .score-bar {
+                margin-top: 4px;
+                height: 5px;
             }
 
             .player-actions {
                 width: 100%;
                 justify-content: flex-start;
+                gap: 6px;
             }
 
             .player-actions input {
-                max-width: 70px;
+                max-width: 60px;
                 flex: 1;
-                min-width: 50px;
-                font-size: 16px;
-                padding: 10px 8px;
+                min-width: 45px;
+                font-size: 14px;
+                padding: 8px 6px;
+            }
+
+            .btn-secondary, .btn-danger {
+                padding: 8px 10px;
+                font-size: 0.85rem;
             }
 
             .quick-add-buttons {
-                margin-top: 10px;
+                margin-top: 6px;
                 width: 100%;
+                gap: 4px; /* Tighter button gaps */
             }
 
             .quick-add-btn {
                 flex: 1;
-                min-width: 45px;
-                padding: 10px 6px;
+                min-width: 40px;
+                padding: 8px 4px;
                 font-size: 0.75rem;
             }
 
@@ -738,6 +776,7 @@
                 right: 10px;
                 left: 10px;
                 font-size: 0.9rem;
+                padding: 12px;
             }
 
             .card-footer {
