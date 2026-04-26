@@ -2,22 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5 Cardzz - Score Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>5 Cardzz - Premium Score Tracker</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+            background: #0f172a;
             min-height: 100vh;
             color: #f0f3f7;
-            padding: 24px;
+            padding: 16px;
             position: relative;
             overflow-x: hidden;
         }
@@ -29,576 +30,261 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(192, 192, 192, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(192, 192, 192, 0.03) 0%, transparent 50%);
+            background: radial-gradient(circle at 50% 0%, rgba(251, 191, 36, 0.08) 0%, transparent 70%),
+                        radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
+            padding-bottom: 80px;
         }
 
-        header {
+        .brand-header {
             text-align: center;
-            margin-bottom: 50px;
-            animation: slideDown 0.6s ease;
+            margin: 10vh auto 40px auto;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .brand-header.game-active {
+            margin: 20px auto 30px auto;
+            transform: scale(0.85);
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.2em;
+            font-size: 4em;
             font-weight: 800;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8e8e8 50%, #d4dfe8 100%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             letter-spacing: -1px;
-            text-shadow: 0 0 30px rgba(192, 192, 192, 0.1);
-            position: relative;
-            animation: shimmer 6s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 100% { text-shadow: 0 0 30px rgba(192, 192, 192, 0.1); }
-            50% { text-shadow: 0 0 40px rgba(192, 192, 192, 0.15); }
+            text-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+            line-height: 1.1;
         }
 
         .subtitle {
             font-size: 1.1em;
-            color: #a0a8b8;
+            color: #94a3b8;
             font-weight: 500;
             letter-spacing: 0.5px;
         }
 
         .glass {
-            background: rgba(30, 41, 59, 0.5);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(192, 192, 192, 0.2);
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(192, 192, 192, 0.1), 0 0 20px rgba(192, 192, 192, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .glass::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(192, 192, 192, 0.2), transparent);
-            animation: shine 5s infinite;
-            pointer-events: none;
-        }
-
-        @keyframes shine {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: 100%; }
-        }
-
-        .glass::before {
-            animation: shine 5s infinite !important;
-        }
-
-        .glass:hover {
-            border-color: rgba(192, 192, 192, 0.4);
             background: rgba(30, 41, 59, 0.7);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(192, 192, 192, 0.2), 0 0 30px rgba(192, 192, 192, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(251, 191, 36, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
         }
 
         .glass h2 {
-            font-size: 1.5em;
+            font-size: 1.4em;
             font-weight: 700;
-            background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #fbbf24;
             margin-bottom: 16px;
             letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .input-group {
             display: flex;
             gap: 12px;
             align-items: stretch;
+            flex-wrap: wrap;
         }
 
         input[type="text"],
         input[type="number"] {
             flex: 1;
-            padding: 12px 16px;
-            background: rgba(71, 85, 105, 0.2);
-            border: 1px solid rgba(192, 192, 192, 0.25);
-            border-radius: 10px;
-            color: #e2e8f0;
-            font-size: 0.95em;
-            transition: all 0.3s ease;
+            min-width: 120px;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-radius: 12px;
+            color: #f8fafc;
+            font-size: 1em;
+            transition: all 0.2s ease;
             font-family: inherit;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        input[type="text"]::placeholder,
-        input[type="number"]::placeholder {
-            color: #64748b;
         }
 
         input[type="text"]:focus,
         input[type="number"]:focus {
             outline: none;
-            background: rgba(71, 85, 105, 0.3);
-            border-color: rgba(192, 192, 192, 0.5);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(192, 192, 192, 0.1);
+            border-color: #fbbf24;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
         }
 
         button {
-            padding: 12px 20px;
+            padding: 14px 24px;
             border: none;
-            border-radius: 10px;
-            font-size: 0.9em;
-            font-weight: 700;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 0.3px;
+            transition: all 0.2s ease;
             font-family: inherit;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: buttonShine 2s infinite;
-        }
-
-        @keyframes buttonShine {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: 100%; }
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #c0c0c0 0%, #a0a0a0 50%, #c0c0c0 100%);
-            color: #1a202c;
-            box-shadow: 0 8px 16px rgba(192, 192, 192, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(192, 192, 192, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
-            background: linear-gradient(135deg, #d0d0d0 0%, #b0b0b0 50%, #d0d0d0 100%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
         }
 
         .btn-primary:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
 
         .btn-secondary {
-            background: rgba(192, 192, 192, 0.15);
-            color: #cbd5e1;
-            border: 1.5px solid rgba(192, 192, 192, 0.4);
-            box-shadow: inset 0 1px 0 rgba(192, 192, 192, 0.2);
+            background: rgba(51, 65, 85, 0.8);
+            color: #f8fafc;
+            border: 1px solid rgba(148, 163, 184, 0.3);
         }
 
-        .btn-secondary:hover {
-            background: rgba(192, 192, 192, 0.25);
-            border-color: rgba(192, 192, 192, 0.6);
-            box-shadow: 0 4px 12px rgba(192, 192, 192, 0.2), inset 0 1px 0 rgba(192, 192, 192, 0.3);
+        .btn-secondary:active {
+            background: rgba(71, 85, 105, 0.8);
+            transform: scale(0.98);
         }
 
         .btn-danger {
-            background: rgba(239, 68, 68, 0.2);
+            background: rgba(239, 68, 68, 0.15);
             color: #fca5a5;
-            border: 1.5px solid rgba(239, 68, 68, 0.4);
-        }
-
-        .btn-danger:hover {
-            background: rgba(239, 68, 68, 0.3);
-            border-color: rgba(239, 68, 68, 0.6);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .btn-small {
-            padding: 8px 14px;
-            font-size: 0.85em;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            border-radius: 8px;
         }
 
         .leaderboard {
             overflow-x: auto;
             border-radius: 12px;
+            background: rgba(15, 23, 42, 0.4);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        thead {
-            background: linear-gradient(135deg, rgba(192, 192, 192, 0.15) 0%, rgba(192, 192, 192, 0.08) 100%);
+            white-space: nowrap;
         }
 
         th {
-            padding: 16px 14px;
+            padding: 16px;
             text-align: left;
-            font-weight: 700;
-            background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            border-bottom: 1px solid rgba(192, 192, 192, 0.3);
-            font-size: 0.9em;
+            font-weight: 600;
+            color: #94a3b8;
+            font-size: 0.85em;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(251, 191, 36, 0.1);
         }
 
         td {
-            padding: 16px 14px;
-            border-bottom: 1px solid rgba(192, 192, 192, 0.1);
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 0.95em;
         }
 
-        td.stat-cell {
-            text-align: center;
-            font-weight: 600;
-            color: #d4dfe8;
-        }
-
-        tr {
-            transition: all 0.2s ease;
-        }
-
-        tr:hover {
-            background: rgba(192, 192, 192, 0.08);
-            box-shadow: inset 0 0 15px rgba(192, 192, 192, 0.05);
-        }
-
-        tr.eliminated {
-            animation: eliminatedPulse 0.6s ease-out;
-        }
-
-        @keyframes eliminatedPulse {
-            0% {
-                background: rgba(220, 70, 70, 0.3);
-                box-shadow: inset 0 0 20px rgba(220, 70, 70, 0.4);
-            }
-            50% {
-                background: rgba(220, 70, 70, 0.2);
-                box-shadow: inset 0 0 10px rgba(220, 70, 70, 0.2);
-            }
-            100% {
-                background: rgba(220, 70, 70, 0.1);
-                box-shadow: inset 0 0 0 rgba(220, 70, 70, 0);
-            }
+        tr:last-child td {
+            border-bottom: none;
         }
 
         tr.eliminated td {
-            color: #fca5a5;
-        }
-
-        tr.winner {
-            background: linear-gradient(135deg, rgba(192, 192, 192, 0.2) 0%, rgba(192, 192, 192, 0.1) 100%);
-            animation: silverGlow 2s ease-in-out infinite;
-        }
-
-        tr.winner td {
-            color: #e8e8e8;
-            font-weight: 700;
-        }
-
-        @keyframes silverGlow {
-            0%, 100% { box-shadow: inset 0 0 10px rgba(192, 192, 192, 0.2); }
-            50% { box-shadow: inset 0 0 20px rgba(192, 192, 192, 0.35); }
+            opacity: 0.5;
         }
 
         .rank {
             font-weight: 700;
-            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.05em;
+            color: #fbbf24;
         }
 
         .player-name {
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-weight: 600;
+            gap: 10px;
         }
 
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #0f172a;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            color: #1a202c;
             font-size: 0.9em;
-            background: linear-gradient(135deg, #e8e8e8 0%, #b0b0b0 50%, #e8e8e8 100%);
-            box-shadow: 0 6px 16px rgba(192, 192, 192, 0.4), inset -2px -2px 4px rgba(0, 0, 0, 0.2), inset 2px 2px 4px rgba(255, 255, 255, 0.3);
         }
 
         .score {
-            font-size: 1.35em;
-            font-weight: 800;
+            font-size: 1.2em;
+            font-weight: 700;
             font-variant-numeric: tabular-nums;
-            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        .score.high {
-            background: linear-gradient(135deg, #fca5a5 0%, #f87171 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .score.high { color: #fca5a5; }
+        .score.safe { color: #86efac; }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
-        .score.safe {
-            background: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .eliminated-badge {
-            background: rgba(239, 68, 68, 0.3);
+        .badge-eliminated {
+            background: rgba(239, 68, 68, 0.2);
             color: #fca5a5;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 0.75em;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(239, 68, 68, 0.4);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
-        .winner-badge {
-            background: linear-gradient(135deg, rgba(192, 192, 192, 0.3), rgba(192, 192, 192, 0.15));
-            color: #e8e8e8;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 0.75em;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(192, 192, 192, 0.4);
-            box-shadow: 0 0 8px rgba(192, 192, 192, 0.2);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-        }
-
-        .round-history {
-            margin-top: 20px;
-        }
-
-        .history-header {
-            font-size: 1.1em;
-            font-weight: 700;
-            background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 14px;
-        }
-
-        .history-content {
-            max-height: 240px;
-            overflow-y: auto;
-            padding: 12px;
-            background: rgba(71, 85, 105, 0.15);
-            border-radius: 10px;
-            border: 1px solid rgba(192, 192, 192, 0.15);
-        }
-
-        .history-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .history-content::-webkit-scrollbar-track {
-            background: rgba(192, 192, 192, 0.08);
-            border-radius: 3px;
-        }
-
-        .history-content::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, rgba(192, 192, 192, 0.4), rgba(192, 192, 192, 0.2));
-            border-radius: 3px;
-        }
-
-        .history-item {
-            padding: 10px 12px;
-            margin-bottom: 8px;
-            background: rgba(192, 192, 192, 0.08);
-            border-left: 3px solid rgba(192, 192, 192, 0.4);
-            border-radius: 6px;
-            font-size: 0.9em;
-            color: #cbd5e1;
-            transition: all 0.2s ease;
-        }
-
-        .history-item:hover {
-            background: rgba(192, 192, 192, 0.15);
-            border-left-color: rgba(192, 192, 192, 0.6);
-        }
-
-        .history-item .round-num {
-            font-weight: 700;
-            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-            backdrop-filter: blur(4px);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
-            border: 2px solid rgba(192, 192, 192, 0.4);
-            border-radius: 20px;
-            padding: 48px;
-            text-align: center;
-            animation: modalBounce 0.5s ease;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(192, 192, 192, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .modal-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(192, 192, 192, 0.2), transparent);
-            animation: shine 5s infinite;
-        }
-
-        @keyframes modalBounce {
-            0% { transform: scale(0.85); opacity: 0; }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-content h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.6em;
-            margin-bottom: 14px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #b8c5db 50%, #f5f7fa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .modal-content p {
-            font-size: 1.12em;
-            color: #d4dfe8;
-            margin-bottom: 32px;
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
-        }
-
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: linear-gradient(135deg, #e8e8e8 0%, #b0b0b0 100%);
-            pointer-events: none;
-            animation: confettiFall 3s ease-in forwards;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(192, 192, 192, 0.6);
-        }
-
-        @keyframes confettiFall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .action-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .round-section {
-            margin-top: 20px;
+        .badge-winner {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
         }
 
         .round-inputs {
             display: grid;
             gap: 12px;
-            margin-bottom: 16px;
         }
 
         .input-row {
             display: grid;
             grid-template-columns: 1fr 100px auto;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
-            padding: 13px;
-            background: rgba(192, 192, 192, 0.08);
-            border-radius: 11px;
-            transition: all 0.2s ease;
-            color: #d4dfe8;
-            font-weight: 600;
-            border: 1px solid rgba(192, 192, 192, 0.16);
-            font-family: 'Poppins', sans-serif;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .input-row:focus-within {
-            background: rgba(192, 192, 192, 0.16);
-            border-color: rgba(192, 192, 192, 0.35);
+        .input-row.is-dealer {
+            border-color: rgba(251, 191, 36, 0.4);
+            background: rgba(251, 191, 36, 0.05);
         }
 
         .quick-scores {
@@ -607,69 +293,73 @@
         }
 
         .quick-score-btn {
-            padding: 8px 10px;
-            background: linear-gradient(135deg, rgba(212, 223, 232, 0.7) 0%, rgba(168, 184, 204, 0.6) 100%);
-            color: #0d1117;
-            border: 1px solid rgba(192, 192, 192, 0.4);
-            border-radius: 7px;
-            font-size: 0.8em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Poppins', sans-serif;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 2px 6px rgba(192, 192, 192, 0.2);
-        }
-
-        .quick-score-btn:hover {
-            background: linear-gradient(135deg, rgba(229, 235, 243, 0.85) 0%, rgba(184, 201, 217, 0.75) 100%);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 4px 10px rgba(192, 192, 192, 0.3);
-            transform: translateY(-1px);
+            padding: 10px;
+            width: 44px;
+            height: 44px;
+            background: rgba(51, 65, 85, 0.6);
+            color: #f8fafc;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
         }
 
         .quick-score-btn:active {
-            transform: translateY(0);
-        }
-
-        .winner-crown {
-            display: inline-block;
-            margin-right: 8px;
-            animation: crownBounce 1s ease-in-out infinite;
-            font-size: 1.3em;
-        }
-
-        @keyframes crownBounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            25% { transform: translateY(-8px) scale(1.1); }
-            50% { transform: translateY(-15px) scale(1.15); }
-            75% { transform: translateY(-8px) scale(1.1); }
+            background: rgba(251, 191, 36, 0.8);
+            color: #0f172a;
+            border-color: #fbbf24;
         }
 
         .status-message {
-            padding: 14px 16px;
+            padding: 12px 16px;
             border-radius: 10px;
-            margin-bottom: 16px;
-            animation: slideDown 0.3s ease;
+            margin-top: 16px;
             font-weight: 500;
-            font-size: 0.95em;
-            border: 1px solid rgba(192, 192, 192, 0.2);
+            font-size: 0.9em;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
         }
 
-        .status-success {
-            background: rgba(34, 197, 94, 0.15);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #86efac;
+        .status-success { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .status-error { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .status-warning { background: rgba(245, 158, 11, 0.15); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
         }
 
-        .status-error {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
+        .modal.active { display: flex; animation: fadeIn 0.3s ease; }
+
+        .modal-content {
+            background: #1e293b;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 24px;
+            padding: 40px 24px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
-        .status-warning {
-            background: rgba(245, 158, 11, 0.15);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            color: #fcd34d;
+        .modal-content h2 {
+            font-size: 2.5em;
+            color: #fbbf24;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .modal-content p {
+            font-size: 1.2em;
+            color: #cbd5e1;
+            margin-bottom: 30px;
         }
 
         .sound-toggle {
@@ -679,104 +369,118 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #c0c0c0 0%, #a0a0a0 50%, #c0c0c0 100%);
-            border: none;
-            color: #1a202c;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            color: #fbbf24;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             z-index: 100;
-            box-shadow: 0 8px 24px rgba(192, 192, 192, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .sound-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 32px rgba(192, 192, 192, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
-            background: linear-gradient(135deg, #d0d0d0 0%, #b0b0b0 50%, #d0d0d0 100%);
-        }
-
-        .sound-toggle:active {
-            transform: scale(0.95);
+            padding: 0;
+            backdrop-filter: blur(5px);
         }
 
         .sound-toggle.muted {
-            opacity: 0.5;
+            opacity: 0.6;
+            color: #94a3b8;
+            border-color: rgba(148, 163, 184, 0.3);
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Details / Collapsible */
+        details summary::-webkit-details-marker { display: none; }
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            list-style: none;
+            padding-bottom: 8px;
+        }
+        .collapsible-header h2 { margin-bottom: 0; }
+        .collapsible-header::after {
+            content: '▼';
+            font-size: 0.8em;
+            color: #fbbf24;
+            transition: transform 0.3s;
+        }
+        details[open] .collapsible-header::after { transform: rotate(180deg); }
+
+        .history-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(15, 23, 42, 0.4);
+            border-left: 3px solid #fbbf24;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #cbd5e1;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #fbbf24;
+            pointer-events: none;
+            animation: confettiFall 3s ease-in forwards;
+            border-radius: 2px;
+            z-index: 2000;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 16px;
-            }
-
-            h1 {
-                font-size: 2.2em;
-            }
-
-            .glass {
-                padding: 20px;
-                margin-bottom: 16px;
-            }
-
+            h1 { font-size: 3.2em; }
             .input-row {
                 grid-template-columns: 1fr;
+                gap: 16px;
             }
-
             .quick-scores {
-                flex-wrap: wrap;
+                justify-content: space-between;
             }
-
             .quick-score-btn {
-                padding: 7px 8px;
-                font-size: 0.75em;
+                flex: 1;
+                max-width: none;
             }
-
-            table {
-                font-size: 0.9em;
+            .action-buttons {
+                flex-direction: column;
             }
-
-            th, td {
-                padding: 12px 8px;
-            }
-
-            .modal-content {
-                padding: 32px 24px;
+            .action-buttons button {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <header class="brand-header" id="mainHeader">
             <h1>5 Cardzz</h1>
-            <p class="subtitle">Real-time score tracking with automatic elimination</p>
+            <p class="subtitle">Premium Score Tracker</p>
         </header>
 
-        <div class="glass">
-            <h2>Game Setup</h2>
-            <div class="input-group">
-                <input type="text" id="playerNameInput" placeholder="Enter player name...">
+        <div class="glass" id="setupCard">
+            <h2>⚙️ Game Setup</h2>
+            <div class="input-group" style="margin-bottom: 16px;">
+                <input type="text" id="playerNameInput" placeholder="Enter player name..." onkeypress="if(event.key==='Enter') addPlayer()">
                 <button class="btn-primary" onclick="addPlayer()">Add Player</button>
             </div>
+            <div class="input-group" style="margin-bottom: 16px; align-items: center;">
+                <label style="color: #cbd5e1; font-weight: 500;">Elimination Score:</label>
+                <input type="number" id="eliminationScoreInput" value="100" min="10" max="1000" style="max-width: 120px;">
+            </div>
             <div id="statusMessage"></div>
-            <div id="playersList"></div>
+            <div id="playersList" style="margin-top: 20px;"></div>
         </div>
 
         <div id="gameContent" style="display:none;">
             <div class="glass">
-                <h2>Leaderboard</h2>
+                <h2>🏆 Leaderboard</h2>
                 <div class="leaderboard">
                     <table>
                         <thead>
@@ -784,10 +488,6 @@
                                 <th>Rank</th>
                                 <th>Player</th>
                                 <th>Score</th>
-                                <th>Wins</th>
-                                <th>Losses</th>
-                                <th>Avg Win</th>
-                                <th>Best</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -796,40 +496,41 @@
                 </div>
             </div>
 
-            <div class="glass round-section">
-                <h2>Enter Round Scores</h2>
+            <div class="glass">
+                <h2>📝 Round Scores</h2>
                 <div class="round-inputs" id="roundInputs"></div>
-                <div style="display: flex; gap: 12px; margin-top: 16px;">
-                    <button class="btn-primary" onclick="submitRound()">Submit Round</button>
-                    <button class="btn-secondary" onclick="undoRound()">Undo Last Round</button>
+                <div class="action-buttons" style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button class="btn-primary" onclick="submitRound()" style="flex: 2;">Submit Round</button>
+                    <button class="btn-secondary" onclick="undoRound()" style="flex: 1;">Undo</button>
                 </div>
             </div>
 
             <div class="glass">
-                <h2>Round History</h2>
-                <div class="round-history">
-                    <div class="history-content" id="history"></div>
-                </div>
-                <div style="display: flex; gap: 12px; margin-top: 16px;">
-                    <button class="btn-danger btn-small" onclick="resetGame()">Reset Game</button>
-                    <button class="btn-secondary btn-small" onclick="downloadGameData()">📥 Download Data</button>
-                </div>
+                <details>
+                    <summary class="collapsible-header"><h2>⏱️ Round History</h2></summary>
+                    <div id="history" style="max-height: 250px; overflow-y: auto; margin-top: 16px;"></div>
+                </details>
             </div>
 
             <div class="glass">
-                <h2>📊 All-Time Statistics</h2>
-                <div class="history-content" id="allTimeHistory" style="max-height: 500px; overflow-y: auto;">
-                    <p style="color: #888; padding: 20px 0;">No past games yet. Start playing!</p>
-                </div>
+                <details>
+                    <summary class="collapsible-header"><h2>📊 All-Time Statistics</h2></summary>
+                    <div id="allTimeHistory" style="max-height: 300px; overflow-y: auto; margin-top: 16px;">
+                        <p style="color: #64748b; padding: 10px 0;">No past games yet. Start playing!</p>
+                    </div>
+                </details>
             </div>
 
             <div class="glass">
-                <h2>⚙️ Game Settings</h2>
-                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                    <button class="btn-secondary btn-small" onclick="downloadGameData()">📥 Download Game Data</button>
-                    <button class="btn-secondary btn-small" onclick="document.getElementById('fileInput').click()">📤 Upload Game Data</button>
-                    <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="uploadGameData(event)">
-                </div>
+                <details>
+                    <summary class="collapsible-header"><h2>⚙️ Advanced Settings</h2></summary>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
+                        <button class="btn-danger btn-small" onclick="resetGame()">Reset Game</button>
+                        <button class="btn-secondary btn-small" onclick="downloadGameData()">📥 Backup Data</button>
+                        <button class="btn-secondary btn-small" onclick="document.getElementById('fileInput').click()">📤 Restore Data</button>
+                        <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="uploadGameData(event)">
+                    </div>
+                </details>
             </div>
         </div>
     </div>
@@ -838,22 +539,22 @@
         <div class="modal-content">
             <h2 id="winnerName"></h2>
             <p id="winnerScore"></p>
-            <button class="btn-primary" onclick="closeWinnerModal()">View History</button>
-            <button class="btn-secondary" onclick="resetGame()" style="margin-left: 10px;">Play Again</button>
+            <button class="btn-primary" onclick="closeWinnerModal()" style="width: 100%; margin-bottom: 10px;">View History</button>
+            <button class="btn-secondary" onclick="resetGame()" style="width: 100%;">Play Again</button>
         </div>
     </div>
 
     <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
 
     <script>
-        const ELIMINATION_SCORE = 100;
         const gameState = {
             players: [],
             history: [],
             allTimeHistory: [],
             gameActive: false,
             soundEnabled: true,
-            nextPlayerId: 1
+            nextPlayerId: 1,
+            eliminationScore: 100
         };
 
         function addPlayer() {
@@ -897,14 +598,16 @@
         function renderPlayersList() {
             const list = document.getElementById('playersList');
             if (gameState.players.length === 0) {
-                list.innerHTML = '';
-                document.getElementById('gameContent').style.display = 'none';
+                list.innerHTML = '<p style="color:#64748b;">No players added yet.</p>';
                 return;
             }
-            list.innerHTML = '<div style="margin-top: 20px;"><strong>Players:</strong><div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">' +
-                gameState.players.map(p => `<div style="display: flex; align-items: center; gap: 8px; background: rgba(192, 192, 192, 0.1); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(192, 192, 192, 0.2);"><span>${p.name}</span><button class="btn-small btn-danger" onclick="deletePlayer(${p.id})" style="padding: 4px 8px; font-size: 0.75em;">Remove</button></div>`).join('') +
-                '</div><button class="btn-primary" onclick="startGame()" style="margin-top: 16px;">Start Game</button></div>';
-            document.getElementById('gameContent').style.display = 'none';
+            list.innerHTML = '<div style="display: flex; flex-wrap: wrap; gap: 10px;">' +
+                gameState.players.map(p => `
+                    <div style="display: flex; align-items: center; gap: 8px; background: rgba(15, 23, 42, 0.6); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                        <span style="font-weight: 600;">${p.name}</span>
+                        <button class="btn-danger" onclick="deletePlayer(${p.id})" style="padding: 4px 8px; font-size: 0.75em; border-radius: 6px;">✕</button>
+                    </div>`).join('') +
+                '</div><button class="btn-primary" onclick="startGame()" style="margin-top: 20px; width: 100%;">Start Game 🃏</button>';
         }
 
         function startGame() {
@@ -912,6 +615,8 @@
                 showStatus('Need at least 2 players!', 'error');
                 return;
             }
+            const elScore = parseInt(document.getElementById('eliminationScoreInput').value);
+            gameState.eliminationScore = (elScore > 0) ? elScore : 100;
             gameState.gameActive = true;
             gameState.history = [];
             gameState.players.forEach(p => {
@@ -919,29 +624,31 @@
                 p.eliminated = false;
                 p.roundScores = [];
             });
+            
+            document.getElementById('setupCard').style.display = 'none';
+            document.getElementById('mainHeader').classList.add('game-active');
             document.getElementById('gameContent').style.display = 'block';
-            document.getElementById('playersList').innerHTML = '<button class="btn-secondary btn-small" onclick="endGame()" style="margin-top: 16px;">End Game</button>';
+            
             renderLeaderboard();
             renderRoundInputs();
+            renderHistory();
             saveToStorage();
             playSound('success');
         }
 
-        function endGame() {
-            gameState.gameActive = false;
-            gameState.players.forEach(p => {
-                p.score = 0;
-                p.eliminated = false;
-                p.roundScores = [];
-            });
-            document.getElementById('gameContent').style.display = 'none';
-            renderPlayersList();
-            saveToStorage();
+        function getDealerId() {
+            if (!gameState.gameActive || gameState.players.length === 0) return -1;
+            const activePlayers = gameState.players.filter(p => !p.eliminated);
+            if (activePlayers.length === 0) return -1;
+            const roundNum = gameState.history.length;
+            return activePlayers[roundNum % activePlayers.length].id;
         }
 
         function submitRound() {
             const scores = {};
             let hasScores = false;
+            let someoneEliminated = false;
+
             gameState.players.forEach(player => {
                 if (player.eliminated) return;
                 const input = document.getElementById(`score-${player.id}`);
@@ -949,38 +656,51 @@
                 if (score > 0) hasScores = true;
                 scores[player.id] = score;
             });
+
             if (!hasScores) {
                 showStatus('Enter at least one score!', 'error');
                 return;
             }
+
             for (let playerId in scores) {
                 const player = gameState.players.find(p => p.id === parseInt(playerId));
                 if (player) {
                     player.score += scores[playerId];
                     player.roundScores.push(scores[playerId]);
-                    if (player.score >= ELIMINATION_SCORE && !player.eliminated) {
+                    if (player.score >= gameState.eliminationScore && !player.eliminated) {
                         player.eliminated = true;
                         player.losses++;
-                        showStatus(`${player.name} eliminated with ${player.score} points!`, 'warning');
-                        playSound('eliminate');
+                        someoneEliminated = true;
+                        showStatus(`${player.name} eliminated!`, 'warning');
                     }
                 }
             }
+
             gameState.history.push({
                 round: gameState.history.length + 1,
                 scores: scores,
                 timestamp: new Date().toLocaleTimeString()
             });
+
             gameState.players.forEach(player => {
                 if (!player.eliminated) {
-                    document.getElementById(`score-${player.id}`).value = '';
+                    const el = document.getElementById(`score-${player.id}`);
+                    if (el) el.value = '';
                 }
             });
+
             renderLeaderboard();
-            updateHistory();
+            renderRoundInputs();
+            renderHistory();
+            
+            if (someoneEliminated) {
+                playSound('eliminate');
+            } else {
+                playSound('success');
+            }
+
             checkWinner();
             saveToStorage();
-            playSound('success');
         }
 
         function undoRound() {
@@ -999,14 +719,14 @@
             }
             saveToStorage();
             renderLeaderboard();
-            updateHistory();
+            renderRoundInputs();
+            renderHistory();
             showStatus('Round undone!', 'success');
             playSound('undo');
         }
 
         function resetGame() {
-            if (confirm('Reset entire game? This cannot be undone!')) {
-                // Save current game to all-time history
+            if (confirm('Reset to setup? History will be saved.')) {
                 if (gameState.history.length > 0 || gameState.players.some(p => p.score > 0)) {
                     gameState.allTimeHistory.push({
                         date: new Date().toISOString(),
@@ -1019,21 +739,21 @@
                         history: [...gameState.history]
                     });
                 }
-                // Reset current game but keep player stats
                 gameState.players = gameState.players.map(p => ({ 
-                    ...p, 
-                    score: 0, 
-                    eliminated: false, 
-                    roundScores: [],
-                    gamesPlayed: p.gamesPlayed + 1
+                    ...p, score: 0, eliminated: false, roundScores: [], gamesPlayed: p.gamesPlayed + 1
                 }));
                 gameState.history = [];
                 gameState.gameActive = false;
+                
                 document.getElementById('winnerModal').classList.remove('active');
                 document.getElementById('gameContent').style.display = 'none';
+                document.getElementById('setupCard').style.display = 'block';
+                document.getElementById('mainHeader').classList.remove('game-active');
+                
                 renderPlayersList();
+                renderAllTimeHistory();
                 saveToStorage();
-                showStatus('Game reset! History preserved.', 'success');
+                showStatus('Game reset!', 'success');
                 playSound('reset');
             }
         }
@@ -1042,7 +762,6 @@
             const activePlayers = gameState.players.filter(p => !p.eliminated);
             if (activePlayers.length === 1) {
                 const winner = activePlayers[0];
-                // Update winner stats
                 winner.wins++;
                 winner.totalPointsInWins += winner.score;
                 if (winner.lowestWinPoints === 0 || winner.score < winner.lowestWinPoints) {
@@ -1052,14 +771,17 @@
                 renderLeaderboard();
                 gameState.gameActive = false;
                 saveToStorage();
+            } else if (activePlayers.length === 0) {
+                showStatus("It's a draw! Everyone eliminated.", "warning");
+                gameState.gameActive = false;
+                saveToStorage();
             }
         }
 
         function showWinnerModal(player) {
-            document.getElementById('winnerName').innerHTML = `<span class="winner-crown">👑</span>${player.name}`;
-            document.getElementById('winnerScore').textContent = `Final Score: ${player.score} points`;
+            document.getElementById('winnerName').innerHTML = `👑 ${player.name}`;
+            document.getElementById('winnerScore').textContent = `Winner with ${player.score} points!`;
             document.getElementById('winnerModal').classList.add('active');
-            document.getElementById('gameContent').style.display = 'block';
             celebrateWin();
             playSound('winner');
         }
@@ -1070,8 +792,8 @@
         }
 
         function celebrateWin() {
-            for (let i = 0; i < 50; i++) {
-                createConfetti();
+            for (let i = 0; i < 60; i++) {
+                setTimeout(createConfetti, i * 30);
             }
         }
 
@@ -1079,7 +801,7 @@
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
             confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.top = '-10px';
+            confetti.style.background = ['#fbbf24', '#f59e0b', '#d97706', '#fca5a5', '#86efac'][Math.floor(Math.random() * 5)];
             document.body.appendChild(confetti);
             setTimeout(() => confetti.remove(), 3000);
         }
@@ -1088,19 +810,18 @@
             const sorted = [...gameState.players].sort((a, b) => a.score - b.score);
             const tbody = document.getElementById('leaderboard');
             tbody.innerHTML = sorted.map((player, index) => {
-                const avgWin = player.wins > 0 ? Math.round(player.totalPointsInWins / player.wins) : '-';
-                const bestWin = player.lowestWinPoints > 0 ? player.lowestWinPoints : '-';
+                const danger = player.score >= (gameState.eliminationScore * 0.75);
                 return `
                 <tr ${player.eliminated ? 'class="eliminated"' : ''}>
                     <td class="rank">#${index + 1}</td>
-                    <td class="player-name"><div class="avatar">${player.name.charAt(0).toUpperCase()}</div>${player.name}</td>
-                    <td class="score ${player.score >= 75 ? 'high' : 'safe'}">${player.score}</td>
-                    <td class="stat-cell">${player.wins}</td>
-                    <td class="stat-cell">${player.losses}</td>
-                    <td class="stat-cell">${avgWin}</td>
-                    <td class="stat-cell">${bestWin}</td>
+                    <td class="player-name">
+                        <div class="avatar">${player.name.charAt(0).toUpperCase()}</div>
+                        ${player.name}
+                    </td>
+                    <td class="score ${danger ? 'high' : 'safe'}">${player.score}</td>
                     <td>
-                        ${player.eliminated ? '<span class="eliminated-badge">ELIMINATED</span>' : (gameState.gameActive ? '' : '<span class="winner-badge"><span class="winner-crown">👑</span>WINNER</span>')}
+                        ${player.eliminated ? '<span class="badge badge-eliminated">OUT</span>' : 
+                          (!gameState.gameActive && gameState.history.length > 0 && index === 0 ? '<span class="badge badge-winner">👑 WINNER</span>' : '<span class="badge" style="background:rgba(255,255,255,0.1)">IN</span>')}
                     </td>
                 </tr>
             `}).join('');
@@ -1109,13 +830,19 @@
         function renderRoundInputs() {
             const container = document.getElementById('roundInputs');
             container.innerHTML = '';
+            const dealerId = getDealerId();
+            
             gameState.players.forEach(player => {
                 if (player.eliminated) return;
+                const isDealer = player.id === dealerId;
                 const row = document.createElement('div');
-                row.className = 'input-row';
+                row.className = 'input-row' + (isDealer ? ' is-dealer' : '');
+                
                 row.innerHTML = `
-                    <span>${player.name}</span>
-                    <input type="number" id="score-${player.id}" placeholder="Points" min="0">
+                    <div style="display:flex; align-items:center; gap:8px; font-weight:600;">
+                        ${player.name} ${isDealer ? '<span title="Dealer" style="font-size:1.2em;">🃏</span>' : ''}
+                    </div>
+                    <input type="number" id="score-${player.id}" placeholder="Pts" min="0">
                     <div class="quick-scores">
                         <button class="quick-score-btn" onclick="addQuickScore(${player.id}, 1)">+1</button>
                         <button class="quick-score-btn" onclick="addQuickScore(${player.id}, 5)">+5</button>
@@ -1129,50 +856,50 @@
 
         function addQuickScore(playerId, points) {
             const input = document.getElementById(`score-${playerId}`);
+            if(!input) return;
             const currentValue = parseInt(input.value) || 0;
             input.value = currentValue + points;
             input.focus();
-            const soundMap = {
-                1: 'button1',
-                5: 'button5',
-                10: 'button10',
-                25: 'button25'
-            };
+            
+            const soundMap = { 1: 'button1', 5: 'button5', 10: 'button10', 25: 'button25' };
             playSound(soundMap[points] || 'click');
         }
 
-        function updateHistory() {
+        function renderHistory() {
             const historyDiv = document.getElementById('history');
-            historyDiv.innerHTML = gameState.history.map((round, index) => {
+            if (gameState.history.length === 0) {
+                historyDiv.innerHTML = '<p style="color: #64748b; padding: 10px 0;">No rounds played yet.</p>';
+                return;
+            }
+            historyDiv.innerHTML = gameState.history.map((round) => {
                 const scores = Object.keys(round.scores).map(playerId => {
                     const player = gameState.players.find(p => p.id === parseInt(playerId));
                     return `${player.name}: ${round.scores[playerId]}`;
                 }).join(', ');
-                return `<div class="history-item"><span class="round-num">Round ${round.round}:</span> ${scores} <span style="color: #a0a8b8; font-size: 0.85em;">${round.timestamp}</span></div>`;
-            }).join('');
-            renderAllTimeHistory();
+                return `<div class="history-item"><strong style="color:#fbbf24;">Round ${round.round}:</strong> ${scores} <span style="float:right; color:#64748b; font-size:0.8em;">${round.timestamp}</span></div>`;
+            }).reverse().join('');
         }
 
         function renderAllTimeHistory() {
             const historyDiv = document.getElementById('allTimeHistory');
             if (gameState.allTimeHistory.length === 0) {
-                historyDiv.innerHTML = '<p style="color: #888; padding: 20px 0;">No past games yet. Start playing!</p>';
+                historyDiv.innerHTML = '<p style="color: #64748b; padding: 10px 0;">No past games yet. Start playing!</p>';
                 return;
             }
             historyDiv.innerHTML = gameState.allTimeHistory.map((game, gameIndex) => {
                 const gameDate = new Date(game.date).toLocaleDateString() + ' ' + new Date(game.date).toLocaleTimeString();
                 const playerResults = game.players.map(p => 
-                    `<div style="padding: 8px; background: rgba(192, 192, 192, 0.08); border-radius: 6px; margin: 6px 0; font-size: 0.9em;">
-                        <strong>${p.name}</strong>: ${p.finalScore} pts ${p.eliminated ? '(Eliminated)' : '(Winner)'}
+                    `<div style="padding: 4px 0;">
+                        ${p.eliminated ? '❌' : '👑'} <strong>${p.name}</strong>: ${p.finalScore} pts
                     </div>`
                 ).join('');
                 return `
-                    <div style="background: rgba(192, 192, 192, 0.05); padding: 16px; border-radius: 8px; margin-bottom: 16px; border-left: 3px solid rgba(192, 192, 192, 0.3);">
-                        <div style="font-weight: 600; color: #d4dfe8; margin-bottom: 8px;">Game ${gameIndex + 1} - ${gameDate}</div>
+                    <div style="background: rgba(15, 23, 42, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px; border-left: 3px solid #fbbf24;">
+                        <div style="font-weight: 600; color: #fbbf24; margin-bottom: 8px;">Game ${gameIndex + 1} - ${gameDate}</div>
                         ${playerResults}
                     </div>
                 `;
-            }).join('');
+            }).reverse().join('');
         }
 
         function showStatus(message, type = 'info') {
@@ -1183,33 +910,63 @@
 
         function toggleSound() {
             gameState.soundEnabled = !gameState.soundEnabled;
-            document.getElementById('soundToggle').textContent = gameState.soundEnabled ? '🔊' : '🔇';
-            document.getElementById('soundToggle').classList.toggle('muted');
+            const btn = document.getElementById('soundToggle');
+            btn.textContent = gameState.soundEnabled ? '🔊' : '🔇';
+            btn.classList.toggle('muted', !gameState.soundEnabled);
             saveToStorage();
         }
 
         function playSound(type = 'click') {
             if (!gameState.soundEnabled) return;
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            const frequencies = {
-                'click': 800, 'add': 600, 'delete': 400, 'success': 1000,
-                'eliminate': 300, 'undo': 700, 'reset': 500, 'winner': 1400,
-                'button1': 550, 'button5': 650, 'button10': 750, 'button25': 900
-            };
-            const durations = {
-                'winner': 0.3, 'button25': 0.25, 'button10': 0.2,
-                'button5': 0.15, 'button1': 0.12
-            };
-            const duration = durations[type] || 0.1;
-            oscillator.frequency.value = frequencies[type] || 600;
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration);
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                if (type === 'winner') {
+                    playMelody(ctx, [523.25, 659.25, 783.99, 1046.50], [0, 0.15, 0.3, 0.5], 0.2);
+                    return;
+                }
+                if (type === 'eliminate') {
+                    playMelody(ctx, [300, 250, 200], [0, 0.15, 0.3], 0.3, 'sawtooth');
+                    return;
+                }
+
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                const freqs = {
+                    'click': 800, 'add': 600, 'delete': 400, 'success': 1000,
+                    'undo': 700, 'reset': 500,
+                    'button1': 550, 'button5': 650, 'button10': 750, 'button25': 900
+                };
+                const durs = { 'button25': 0.25, 'button10': 0.2, 'button5': 0.15, 'button1': 0.12 };
+                const dur = durs[type] || 0.1;
+                
+                osc.frequency.value = freqs[type] || 600;
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + dur);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + dur);
+            } catch (e) { console.warn("Audio playback failed", e); }
+        }
+
+        function playMelody(ctx, freqs, times, dur, type = 'sine') {
+            freqs.forEach((freq, i) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = freq;
+                const startTime = ctx.currentTime + times[i];
+                gain.gain.setValueAtTime(0.3, startTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, startTime + dur);
+                osc.start(startTime);
+                osc.stop(startTime + dur);
+            });
         }
 
         function saveToStorage() {
@@ -1222,12 +979,12 @@
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `5cardzz-game-${new Date().toISOString().split('T')[0]}.json`;
+            link.download = `5cardzz-backup-${new Date().toISOString().split('T')[0]}.json`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
-            showStatus('Game data downloaded!', 'success');
+            showStatus('Backup downloaded!', 'success');
         }
 
         function uploadGameData(event) {
@@ -1236,35 +993,12 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const importedData = JSON.parse(e.target.result);
-                    if (!importedData.players || !importedData.history) {
-                        showStatus('Invalid game file format!', 'error');
-                        return;
-                    }
-                    gameState.players = (importedData.players || []).map(p => ({
-                        ...p,
-                        wins: p.wins || 0,
-                        losses: p.losses || 0,
-                        lowestWinPoints: p.lowestWinPoints || 0,
-                        totalPointsInWins: p.totalPointsInWins || 0,
-                        gamesPlayed: p.gamesPlayed || 0
-                    }));
-                    gameState.history = importedData.history || [];
-                    gameState.allTimeHistory = importedData.allTimeHistory || [];
-                    gameState.gameActive = importedData.gameActive || false;
-                    gameState.soundEnabled = importedData.soundEnabled !== false;
-                    gameState.nextPlayerId = Math.max(0, ...gameState.players.map(p => p.id)) + 1;
+                    const loaded = JSON.parse(e.target.result);
+                    if (!loaded.players) throw new Error("Invalid format");
+                    Object.assign(gameState, loaded);
+                    gameState.eliminationScore = loaded.eliminationScore || 100;
                     saveToStorage();
-                    renderPlayersList();
-                    if (gameState.gameActive) {
-                        document.getElementById('gameContent').style.display = 'block';
-                        renderLeaderboard();
-                        renderRoundInputs();
-                        updateHistory();
-                    } else {
-                        renderAllTimeHistory();
-                    }
-                    showStatus('Game data imported successfully!', 'success');
+                    location.reload();
                 } catch (err) {
                     showStatus('Error reading file: ' + err.message, 'error');
                 }
@@ -1273,41 +1007,39 @@
             document.getElementById('fileInput').value = '';
         }
 
-
         function loadFromStorage() {
             const saved = localStorage.getItem('fiveCardsState');
             if (saved) {
-                const loaded = JSON.parse(saved);
-                gameState.players = (loaded.players || []).map(p => ({
-                    ...p,
-                    wins: p.wins || 0,
-                    losses: p.losses || 0,
-                    lowestWinPoints: p.lowestWinPoints || 0,
-                    totalPointsInWins: p.totalPointsInWins || 0,
-                    gamesPlayed: p.gamesPlayed || 0
-                }));
-                gameState.history = loaded.history || [];
-                gameState.allTimeHistory = loaded.allTimeHistory || [];
-                gameState.gameActive = loaded.gameActive || false;
-                gameState.soundEnabled = loaded.soundEnabled !== false;
-                gameState.nextPlayerId = Math.max(0, ...gameState.players.map(p => p.id)) + 1;
-                renderPlayersList();
-                if (gameState.gameActive) {
-                    document.getElementById('gameContent').style.display = 'block';
-                    renderLeaderboard();
-                    renderRoundInputs();
-                    updateHistory();
-                } else {
+                try {
+                    const loaded = JSON.parse(saved);
+                    Object.assign(gameState, loaded);
+                    gameState.eliminationScore = loaded.eliminationScore || 100;
+                    if (gameState.players) {
+                        gameState.nextPlayerId = Math.max(0, ...gameState.players.map(p => p.id)) + 1;
+                    }
+                    
+                    if (gameState.gameActive) {
+                        document.getElementById('setupCard').style.display = 'none';
+                        document.getElementById('mainHeader').classList.add('game-active');
+                        document.getElementById('gameContent').style.display = 'block';
+                        renderLeaderboard();
+                        renderRoundInputs();
+                        renderHistory();
+                    } else {
+                        renderPlayersList();
+                    }
                     renderAllTimeHistory();
-                }
+                    
+                    const btn = document.getElementById('soundToggle');
+                    btn.textContent = gameState.soundEnabled ? '🔊' : '🔇';
+                    btn.classList.toggle('muted', !gameState.soundEnabled);
+                } catch(e) { console.warn("Failed to load state", e); }
+            } else {
+                renderPlayersList();
             }
         }
 
         loadFromStorage();
-        if (!gameState.soundEnabled) {
-            document.getElementById('soundToggle').classList.add('muted');
-            document.getElementById('soundToggle').textContent = '🔇';
-        }
     </script>
 </body>
 </html>
